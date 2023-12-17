@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Image Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f9fafb;
+        }
+        #profileImage {
+            width: 200px;
+            height: 200px;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+        img {
+            width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen">
+    <div class="text-center mb-6">
+        <h1 class="text-2xl font-semibold">Profile Image Generator</h1>
+    </div>
+    <div id="profileImage" class="mb-6">
+        <!-- Placeholder image -->
+        <img src="https://via.placeholder.com/200" alt="Profile Placeholder">
+    </div>
+    <button id="generateButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        Generate
+    </button>
+
+    <script>
+        document.getElementById('generateButton').addEventListener('click', function() {
+            const profileImage = document.getElementById('profileImage');
+            fetch('https://source.unsplash.com/200x200/?face')
+                .then((response) => {
+                    profileImage.innerHTML = `<img src="${response.url}" alt="Generated Profile">`;
+                });
+        });
+    </script>
+</body>
+</html>
