@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interactive Cards</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .card {
+    perspective: 1000px;
+  }
+  .card-inner {
+    transition: transform 0.2s;
+    transform-style: preserve-3d;
+  }
+  .card:hover .card-inner {
+    transform: rotateY(var(--rotate-y, 0deg)) rotateX(var(--rotate-x, 0deg));
+  }
+</style>
+</head>
+<body class="bg-gray-100">
+<div class="container mx-auto p-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+  <!-- Repeat this block for each card -->
+  <div class="card" onmousemove="handleMouseMove(event)" onmouseleave="resetCardStyle(event)">
+    <div class="card-inner bg-white shadow-lg rounded-lg p-4">
+      <img class="w-24 h-24 rounded-full mx-auto" src="https://unsplash.it/96/96?random" alt="Profile Image">
+      <div class="text-center mt-2">
+        <p class="text-gray-900 text-lg">Person Name</p>
+        <p class="text-gray-600">Job Title</p>
+        <p class="text-gray-500 text-sm mt-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+      </div>
+    </div>
+  </div>
+  <!-- Repeat block ends -->
+</div>
+
+<script>
+  function handleMouseMove(event) {
+    const card = event.currentTarget;
+    const cardInner = card.querySelector('.card-inner');
+    const { clientX, clientY, currentTarget } = event;
+    const { top, left, width, height } = currentTarget.getBoundingClientRect();
+    const horizontal = (clientX - left) / width;
+    const vertical = (clientY - top) / height;
+    const rotateX = (vertical - 0.5) * -15; // degrees
+    const rotateY = (horizontal - 0.5) * 15; // degrees
+    cardInner.style.setProperty('--rotate-x', `${rotateX}deg`);
+    cardInner.style.setProperty('--rotate-y', `${rotateY}deg`);
+  }
+
+  function resetCardStyle(event) {
+    const card = event.currentTarget;
+    const cardInner = card.querySelector('.card-inner');
+    cardInner.style.setProperty('--rotate-x', '0deg');
+    cardInner.style.setProperty('--rotate-y', '0deg');
+  }
+</script>
+</body>
+</html>
